@@ -1,7 +1,7 @@
 import { ConflictException, Injectable } from '@nestjs/common';
-import { MessagesRepository } from './messages.repository';
-import { CreateMessageDto } from './dto/create-message.dto';
-import { UpdateMessageDto } from './dto/update-message.dto';
+import { MessagesRepository } from 'src/domain/repositories/employees/sales/services/messages/messages.repository';
+import { CreateMessageDto } from 'src/interfaces/controllers/employees/sales/services/messages/dtos/employees/sales/services/messages/create-message.dto';
+import { UpdateMessageDto } from 'src/interfaces/controllers/employees/sales/services/messages/dtos/employees/sales/services/messages/update-message.dto';
 
 @Injectable()
 export class MessagesService {
