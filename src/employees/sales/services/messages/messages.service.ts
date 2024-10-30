@@ -1,26 +1,34 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
+import { MessagesRepository } from './messages.repository';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { UpdateMessageDto } from './dto/update-message.dto';
 
 @Injectable()
 export class MessagesService {
-  create(createMessageDto: CreateMessageDto) {
-    return 'This action adds a new message';
+  constructor(private readonly messagesRepository: MessagesRepository) {}
+
+  async create(createMessageDto: CreateMessageDto) {
+    const messageExists = await this.messagesRepository.findByTitle(createMessageDto.title);
+    if (messageExists) throw new ConflictException('Esta mensagem ja existe');
+    
+    return await this.messagesRepository.create(createMessageDto);
   }
 
-  findAll() {
-    return `This action returns all messages`;
+  async findAll() {    
+    return await this.messagesRepository.findAll();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} message`;
+  async findOne(id: string) {
+    return await this.messagesRepository.findOne(id);;
   }
 
-  update(id: number, updateMessageDto: UpdateMessageDto) {
-    return `This action updates a #${id} message`;
+  async update(id: string, updateMessageDto: UpdateMessageDto) {
+    const messageExists = await this.messagesRepository.findByTitle(updateMessageDto.title);
+    if (messageExists) throw new ConflictException('Esta mensagem ja existe');
+    return await this.messagesRepository.update(id, updateMessageDto);;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} message`;
+  async remove(id: string) {
+    return await this.messagesRepository.remove(id);;
   }
 }
