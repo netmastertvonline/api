@@ -16,6 +16,7 @@ export class MessagesRepository {
                     message
                 }
             })
+            console.log("NOVO", newMessage);
             
             return { newMessage, status: 201, message:"Mensagem criada com sucesso"}
         } catch (error) {
@@ -46,21 +47,22 @@ export class MessagesRepository {
     }
 
     async update(id: string, updateMessageDto: UpdateMessageDto){
-        const { title, message } = updateMessageDto        
+        const { title, message } = updateMessageDto;
         
         try {
             const messageUpdated = await this.prismaService.message.update({
                 where: {
                     id
                 },
-                data:{
+                data: {
                     title,
                     message
                 }
-            })            
-            return { messageUpdated, status: 200, message:"Mensagem atualizada com sucesso"}
+            });
+            
+            return { messageUpdated, status: 200, message: "Mensagem atualizada com sucesso" };
         } catch (error) {
-            throw new Error(`Failed to fetch messages: ${error.message}`);               
+            throw new Error(`Failed to update message: ${error.message}`);
         }
     }
 
@@ -70,7 +72,9 @@ export class MessagesRepository {
                 where: {
                     id
                 }
-            })            
+            })
+            // console.log("DELETED", deleted);
+                        
             return { deleted: true, status: 200, message:"Mensagem atualizada com sucesso"}
         } catch (error) {
             throw new Error(`Failed to fetch messages: ${error.message}`);               
