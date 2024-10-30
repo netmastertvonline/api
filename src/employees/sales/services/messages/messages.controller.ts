@@ -24,6 +24,7 @@ export class MessagesController {
 
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateMessageDto: UpdateMessageDto) {
+
     return await this.messagesService.update(id, updateMessageDto);
   }
 

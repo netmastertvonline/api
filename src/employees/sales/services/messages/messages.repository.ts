@@ -73,7 +73,7 @@ export class MessagesRepository {
                     id
                 }
             })
-            // console.log("DELETED", deleted);
+            console.log("DELETED", deleted);
                         
             return { deleted: true, status: 200, message:"Mensagem atualizada com sucesso"}
         } catch (error) {
