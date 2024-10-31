@@ -46,19 +46,16 @@ model User {
   default_list Boolean? @default(false)
   premium_list Boolean? @default(false)
 
-  subscription Subscription? @relation(fields: [subscriptionId], references: [id])
-
   password              String?
   password_confirmation String?
-  email                 String?   @unique
+  email                 String?
   emailVerified         DateTime? @map("email_verified")
   image                 String?
 
-  role     Role      @default(USER)
-  accounts Account[]
-  sessions Session[]
-
-  subscriptionId String? @db.ObjectId
+  role         Role          @default(USER)
+  accounts     Account[]
+  sessions     Session[]
+  subscription Subscription[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -67,29 +64,46 @@ model User {
 }
 
 model Subscription {
-  id                 String @id @default(auto()) @map("_id") @db.ObjectId
-  name               String
-  Subscription_value String
+  id               String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId           String  @map("user_id") @db.ObjectId
+  plan_value       String?
+  plan_type        String?
+  periodicity      String?
+  contracting_plan String?
+  expiration_plan  String?
+  notes            String?
 
-  User User[]
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  screens Screen[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("subscriptions")
-}
-
-model VerificationToken {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  identifier String
-  token      String
-  expires    DateTime
-
-  @@unique([identifier, token])
-  @@map("verificationtokens")
 }
 
 enum Role {
   ADMIN
   EMPLOYEE
   USER
+}
+
+model Screen {
+  id             String @id @default(auto()) @map("_id") @db.ObjectId
+  subscriptionId String @map("subscription_Id") @db.ObjectId
+
+  system_type String?
+  screen_name String?
+  painel      String?
+  user_number String?
+  app_name    String?
+  mac_address String?
+  app_key     String?
+
+  Subscription Subscription @relation(fields: [subscriptionId], references: [id])
+
+  @@map("screens")
 }
 
 model Message {
@@ -101,4 +115,14 @@ model Message {
   updatedAt DateTime @updatedAt
 
   @@map("messages")
+}
+
+model VerificationToken {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verificationtokens")
 }
