@@ -52,7 +52,7 @@ model User {
   emailVerified         DateTime? @map("email_verified")
   image                 String?
 
-  role         Role          @default(USER)
+  role         Role           @default(USER)
   accounts     Account[]
   sessions     Session[]
   subscription Subscription[]
@@ -125,4 +125,16 @@ model VerificationToken {
 
   @@unique([identifier, token])
   @@map("verificationtokens")
+}
+
+model WhatsApp {
+  id            String @id @default(auto()) @map("_id") @db.ObjectId
+  phone         String @unique
+  phone_type    String
+  original_link String?
+  custom_link   String?
+  status        Boolean @default(false)
+  notes         String?
+
+  @@map("whatsApp")
 }

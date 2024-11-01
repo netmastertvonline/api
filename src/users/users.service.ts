@@ -2,10 +2,15 @@ import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersRepository } from './users.repository';
+import { Query } from 'express-serve-static-core'
 
 @Injectable()
 export class UsersService {
   constructor(private readonly usersRepository: UsersRepository) {}
+
+  async search(query: Query) {
+    return await this.usersRepository.search(query);;
+  }
 
   async create(createUserDto: CreateUserDto) {
     return await this.usersRepository.create(createUserDto);;
@@ -19,8 +24,8 @@ export class UsersService {
     return await this.usersRepository.findOne(id);;
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: string, updateUserDto: UpdateUserDto) {
+    return await this.usersRepository.update(id, updateUserDto);;
   }
 
   remove(id: number) {
