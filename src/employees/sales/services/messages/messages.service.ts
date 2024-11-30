@@ -2,10 +2,15 @@ import { ConflictException, Injectable } from '@nestjs/common';
 import { MessagesRepository } from './messages.repository';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { UpdateMessageDto } from './dto/update-message.dto';
+import { Query } from 'express-serve-static-core'
 
 @Injectable()
 export class MessagesService {
   constructor(private readonly messagesRepository: MessagesRepository) {}
+  
+  async search(query: Query) {
+    return await this.messagesRepository.search(query);;
+  }
 
   async create(createMessageDto: CreateMessageDto) {
     const messageExists = await this.messagesRepository.findByTitle(createMessageDto.title);
