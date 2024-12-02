@@ -9,7 +9,7 @@ export class UsersRepository {
     constructor(private prismaService: PrismaService) { }
 
     async search(query: Query) {
-        const users = await this.prismaService.user.findMany({
+        const usersFinded = await this.prismaService.user.findMany({
             where: {
                 name: {
                     contains: query.search_query as string,
@@ -27,7 +27,7 @@ export class UsersRepository {
                 createdAt: 'desc'
             }
         });
-        return users;
+        return usersFinded;
     }
 
     async create(createUserDto: CreateUserDto) {

@@ -9,7 +9,7 @@ export class WhatsAppRepository {
     constructor(private prismaService: PrismaService) { }
     
     async search(query: Query) {
-        const whatsappFinded = await this.prismaService.whatsApp.findMany({
+        const whatsAppsFinded = await this.prismaService.whatsApp.findMany({
             where: {
                 phone: {
                     contains: query.search_query as string,
@@ -17,7 +17,7 @@ export class WhatsAppRepository {
                 }
             }
         });
-        return whatsappFinded;
+        return whatsAppsFinded;
     }
 
     async toggleStatus(id: string) {

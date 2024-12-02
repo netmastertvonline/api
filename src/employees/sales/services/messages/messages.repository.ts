@@ -9,18 +9,19 @@ export class MessagesRepository {
     constructor(private prismaService: PrismaService) { }
 
     async search(query: Query) {
-        const users = await this.prismaService.message.findMany({
+        const messagesFinded = await this.prismaService.message.findMany({
             where: {
                 title: {
                     contains: query.search_query as string,
                     mode: 'insensitive'
                 }
             },
+            take: 7,
             orderBy: {
                 createdAt: 'asc'
             }
         });
-        return users;
+        return messagesFinded;
     }
 
     async create(createUserDto: CreateMessageDto) {
