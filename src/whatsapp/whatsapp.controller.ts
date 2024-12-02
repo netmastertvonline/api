@@ -21,6 +21,7 @@ export class WhatsappController {
   async findAllSuportNumbers() {
     return await this.whatsappService.findAllSuportNumbers();
   }
+  
   @Get('sales')
   async findAllSalesNumbers() {
     return await this.whatsappService.findAllSalesNumbers();
@@ -38,6 +39,8 @@ export class WhatsappController {
 
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateWhatsappDto: UpdateWhatsappDto) {
+    console.log("ATUALIZANDO", updateWhatsappDto);
+    
     return await this.whatsappService.update(id, updateWhatsappDto);
   }
 

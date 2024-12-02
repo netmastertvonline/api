@@ -128,13 +128,15 @@ model VerificationToken {
 }
 
 model WhatsApp {
-  id            String @id @default(auto()) @map("_id") @db.ObjectId
-  phone         String @unique
+  id            String  @id @default(auto()) @map("_id") @db.ObjectId
+  phone         String  @unique
   phone_type    String
   original_link String?
   custom_link   String?
   status        Boolean @default(false)
   notes         String?
+  operator      String?
+  message       String?
 
   @@map("whatsApp")
 }

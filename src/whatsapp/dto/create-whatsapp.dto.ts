@@ -25,6 +25,12 @@ export class CreateWhatsappDto {
 
     @ApiProperty()
     notes: string;
+    
+    @ApiProperty()
+    operator: string;
+    
+    @ApiProperty()
+    message: string;
 
     @ApiProperty()
     createdAt?: Date

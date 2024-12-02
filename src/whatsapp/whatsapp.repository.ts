@@ -109,7 +109,7 @@ export class WhatsAppRepository {
     async update(id: string, updateWhatsappDto: UpdateWhatsappDto) {
         console.log("ID", id);
         
-        const { phone, phone_type, custom_link, notes } = updateWhatsappDto
+        const { phone, phone_type, custom_link, notes, operator, message } = updateWhatsappDto
         try {
             const updatedWhatsApp = await this.prismaService.whatsApp.update({
                 where: {
@@ -119,7 +119,9 @@ export class WhatsAppRepository {
                     phone, 
                     phone_type, 
                     custom_link, 
-                    notes
+                    notes,
+                    operator,
+                    message
                 }
             })
 
