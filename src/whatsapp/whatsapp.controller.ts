@@ -1,11 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { WhatsappService } from './whatsapp.service';
 import { CreateWhatsappDto } from './dto/create-whatsapp.dto';
 import { UpdateWhatsappDto } from './dto/update-whatsapp.dto';
+import { Query as ExpressQuery } from 'express-serve-static-core'
 
 @Controller('whatsapp')
 export class WhatsappController {
   constructor(private readonly whatsappService: WhatsappService) {}
+
+  @Get('results')
+  async search(@Query() query: ExpressQuery) {
+    return await this.whatsappService.search(query);
+  }
 
   @Patch('/toggle/:id')
   async toggleStatus(@Param('id') id: string) {
@@ -38,9 +44,7 @@ export class WhatsappController {
   }
 
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateWhatsappDto: UpdateWhatsappDto) {
-    console.log("ATUALIZANDO", updateWhatsappDto);
-    
+  async update(@Param('id') id: string, @Body() updateWhatsappDto: UpdateWhatsappDto) {    
     return await this.whatsappService.update(id, updateWhatsappDto);
   }
 

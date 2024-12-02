@@ -2,10 +2,15 @@ import { Injectable } from '@nestjs/common';
 import { CreateWhatsappDto } from './dto/create-whatsapp.dto';
 import { UpdateWhatsappDto } from './dto/update-whatsapp.dto';
 import { WhatsAppRepository } from './whatsapp.repository';
+import { Query } from 'express-serve-static-core'
 
 @Injectable()
 export class WhatsappService {
   constructor(private readonly whatsAppRepository: WhatsAppRepository) {}
+
+  async search(query: Query) {
+    return await this.whatsAppRepository.search(query);;
+  }
 
   async toggleStatus(id: string) {
     return await this.whatsAppRepository.toggleStatus(id);

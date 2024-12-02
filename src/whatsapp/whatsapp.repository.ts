@@ -2,13 +2,24 @@ import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
 import { Query } from 'express-serve-static-core'
 import { CreateWhatsappDto } from "./dto/create-whatsapp.dto";
-import { UpdateUserDto } from "src/users/dto/update-user.dto";
 import { UpdateWhatsappDto } from "./dto/update-whatsapp.dto";
 
 @Injectable()
 export class WhatsAppRepository {
     constructor(private prismaService: PrismaService) { }
     
+    async search(query: Query) {
+        const whatsappFinded = await this.prismaService.whatsApp.findMany({
+            where: {
+                phone: {
+                    contains: query.search_query as string,
+                    mode: 'insensitive'
+                }
+            }
+        });
+        return whatsappFinded;
+    }
+
     async toggleStatus(id: string) {
         try {
             const currentStatus = await this.prismaService.whatsApp.findUnique({
