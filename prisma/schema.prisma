@@ -140,3 +140,14 @@ model WhatsApp {
 
   @@map("whatsApp")
 }
+
+model Redirect {
+  id            String  @id @default(auto()) @map("_id") @db.ObjectId
+  redirect_to   String  @unique
+  redirect_link String  @unique
+  original_link String?
+  custom_link   String?
+  status        Boolean @default(false)
+
+  @@map("redirects")
+}
